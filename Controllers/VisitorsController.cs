@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VisitorManagement2022.Data;
 using VisitorManagement2022.Models;
+using VisitorManagement2022.Service;
 
 namespace VisitorManagement2022.Controllers
 {
     public class VisitorsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IOperations _operations;
 
         public VisitorsController(ApplicationDbContext context)
         {
@@ -18,6 +20,7 @@ namespace VisitorManagement2022.Controllers
         // GET: Visitors
         public async Task<IActionResult> Index()
         {
+            _operations.Dostuff();
             var applicationDbContext = _context.Visitors.Include(v => v.StaffName);
             return View(await applicationDbContext.ToListAsync());
         }
