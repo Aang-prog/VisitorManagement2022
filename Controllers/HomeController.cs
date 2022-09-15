@@ -7,10 +7,12 @@ namespace VisitorManagement2022.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        private readonly IWebHostEnvironment _webHostEnvironment;
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+            _webHostEnvironment = _webHostEnvironment;
+
         }
 
         public IActionResult Index()
@@ -24,6 +26,9 @@ namespace VisitorManagement2022.Controllers
             };
 
             ViewData["AnotherWelcome"] = "Please enter your name";
+            string rootPath = _webHostEnvironment.WebRootPath;
+            FileInfo filePath = new FileInfo(Path.Combine(rootPath, "ConditionsForAcceptance.txt"));
+            string[] lines = System.IO.File.ReadAllLines(filePath.ToString());
             return View();
         }
 

@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+
+    @foreach (var item in (IEnumerable<string>)ViewData["Conditions"])
+    {
+        if (item.ToString().Contains("Heading"))
+        {
+            
+                    
+                        <h3> @item.ToString().Replace("Heading", "")</h3>
+                   
+            
+        }
+        else
+        {
+            <div class="form-group col-md-3">
+                <div class="card-body text-start bg-dark" style="border: solid 4px gray; margin-top: 20px;"><p>@item.ToString()</p></div>
+                </div>
+        }
+    }

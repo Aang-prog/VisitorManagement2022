@@ -16,3 +16,30 @@ html {
 body {
     margin-bottom: 60px;
 }
+
+.card-body:hover {
+    background-color: black !important;
+    color: white;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.card-body {
+    font-weight: bold;
+    text-align: center !important;
+}
+
+h2 {
+    margin-bottom: 50px;
+}
+
+h3 {
+    font-weight: bolder;
+}
+
+.card-body {
+    color: white;
+}
