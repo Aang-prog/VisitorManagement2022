@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using VisitorManagement2022.Models;
+using VisitorManagement2022.Service;
 
 namespace VisitorManagement2022.Controllers
 {
@@ -8,15 +9,17 @@ namespace VisitorManagement2022.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ITextFileOperations _textFileOperations;
+        public HomeController(ILogger<HomeController> logger, ITextFileOperations textFileOperations)
         {
             _logger = logger;
             _webHostEnvironment = _webHostEnvironment;
-
+            _textFileOperations = textFileOperations;
         }
 
         public IActionResult Index()
         {
+            ViewData["Conditions"] = _textFileOperations.LoadConditionsOfAcceptance();
             ViewBag.Welcome = "Welcome to the VMS";
 
             ViewBag.VisitorNew = new Visitors()
@@ -26,9 +29,7 @@ namespace VisitorManagement2022.Controllers
             };
 
             ViewData["AnotherWelcome"] = "Please enter your name";
-            string rootPath = _webHostEnvironment.WebRootPath;
-            FileInfo filePath = new FileInfo(Path.Combine(rootPath, "ConditionsForAcceptance.txt"));
-            string[] lines = System.IO.File.ReadAllLines(filePath.ToString());
+
             return View();
         }
 
