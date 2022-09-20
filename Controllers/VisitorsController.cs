@@ -1,26 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VisitorManagement2022.Data;
 using VisitorManagement2022.Models;
+using VisitorManagement2022.ViewModels;
 
 namespace VisitorManagement2022.Controllers
 {
     public class VisitorsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public VisitorsController(ApplicationDbContext context)
+        private readonly IMapper _mapper;
+        public VisitorsController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: Visitors
         public async Task<IActionResult> Index()
         {
 
-            var applicationDbContext = _context.Visitors.Include(v => v.StaffName);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = _context.Visitors!.Include(v => v.StaffName);
+
+            var VisitorsVM = _mapper.Map<IEnumerable<VisitorsVM>>(applicationDbContext);
+
+            return View(VisitorsVM);
         }
 
         // GET: Visitors/Details/5
@@ -39,16 +45,18 @@ namespace VisitorManagement2022.Controllers
                 return NotFound();
             }
 
-            return View(visitors);
+            var visitorsVM = _mapper.Map<IEnumerable<VisitorsVM>>(visitors);
+
+            return View(visitorsVM);
         }
 
         // GET: Visitors/Create
         public IActionResult Create()
         {
             ViewData["StaffNameId"] = new SelectList(_context.StaffNames, "Id", "Name");
-            Visitors visitors = new Visitors();
-            visitors.DateIn = DateTime.Now;
-            return View();
+            VisitorsVM visitorsVM = new VisitorsVM();
+            visitorsVM.DateIn = DateTime.Now;
+            return View(visitorsVM);
         }
 
         // POST: Visitors/Create
@@ -56,8 +64,10 @@ namespace VisitorManagement2022.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Buisness,DateIn,DateOut,StaffNameId")] Visitors visitors)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Buisness,DateIn,DateOut,StaffNameId")] VisitorsVM visitorsVM)
         {
+            Visitors visitors = new Visitors();
+            visitors = _mapper.Map(visitorsVM, visitors);
             if (ModelState.IsValid)
             {
                 visitors.Id = Guid.NewGuid();
@@ -65,8 +75,8 @@ namespace VisitorManagement2022.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StaffNameId"] = new SelectList(_context.StaffNames, "Id", "Id", visitors.StaffNameId);
-            return View(visitors);
+            ViewData["StaffNameId"] = new SelectList(_context.StaffNames, "Id", "Id", visitorsVM.StaffNameId);
+            return View(visitorsVM);
         }
 
         // GET: Visitors/Edit/5
