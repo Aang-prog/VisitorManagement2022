@@ -4,17 +4,18 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">@ViewBag.Welcome to @ViewBag.VisitorNew.FirstName @ViewBag.VisitorNew.LastName</h1>
+    <h1 class="display-4">@ViewBag.Welcome</h1>
+    <br />
     <h2>@ViewData["AnotherWelcome"]</h2>
+
+    <div class="col-6" style="margin: 0 auto;">
+
+        @await Html.PartialAsync("_Create")
+    </div>
+
     <div class="row">
-        <div class="col-6">
-
-            @await Html.PartialAsync("_Create")
-        </div>
-      
-
-            @await Html.PartialAsync("_Conditions")
-
-        </div>
+        @await Html.PartialAsync("_Conditions")
 
     </div>
+
+</div>

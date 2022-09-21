@@ -71,6 +71,11 @@ namespace VisitorManagement2022.Controllers
             if (ModelState.IsValid)
             {
                 visitors.Id = Guid.NewGuid();
+                //increase the counter 
+                var staff = _context.StaffNames.Find(visitorsVM.StaffNameId);
+                staff.VisitorCount++;
+                _context.Update(staff);
+
                 _context.Add(visitors);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
