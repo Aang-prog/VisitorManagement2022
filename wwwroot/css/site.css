@@ -99,9 +99,13 @@ h4 {
 }
 li{
     color:white;
-    margin-left: 20px;
+    
 }
-
+.people {
+    color: white;
+    margin-top: 20px;
+}
 ul{
     list-style: none;
+    padding: 0px;
 }

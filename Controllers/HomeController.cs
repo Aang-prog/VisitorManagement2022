@@ -21,7 +21,7 @@ namespace VisitorManagement2022.Controllers
         private readonly IMapper _mapper;
         private readonly ISweetAlert _sweetalert;
         private readonly IDBCalls _dbCalls;
-       
+
         //HOMECONTROLLER
         public HomeController(ILogger<HomeController> logger, IWebHostEnvironment webHostEnvironment, ITextFileOperations textFileOperations, ApplicationDbContext context, IMapper mapper, ISweetAlert sweetalert, IDBCalls dbCalls)
         {
@@ -57,6 +57,7 @@ namespace VisitorManagement2022.Controllers
             ViewData["StaffNameId"] = staffList;
             ViewData["LoggedInVisitors"] = _dbCalls.VisitorsLoggedIn();
             ViewData["Conditions"] = _textFileOperations.LoadConditionsOfAcceptance();
+            ViewData["TOE"] = "Terms of Entry";
             ViewData["StaffNameId"] = new SelectList(_context.StaffNames, "Id", "Name");
 
             return View(visitorVM);
@@ -75,12 +76,14 @@ namespace VisitorManagement2022.Controllers
 
                 visitors.Id = Guid.NewGuid();
                 //increase the counter 
-                var staff = _context.StaffNames.Find(visitorsVM.StaffNameId);
+
+                var staff = _context.StaffNames?.Find(visitorsVM.StaffNameId);
+
                 staff.VisitorCount++;
                 _context.Update(staff);
                 _context.Add(visitors);
                 await _context.SaveChangesAsync();
-                TempData["create"] = _sweetalert.AlertPopup("Welcome to the College", visitors.FirstName + " visiting " + visitors.StaffName.Name, NotificationType.success);
+                TempData["create"] = _sweetalert.AlertPopup("Welcome to the College", visitors.FirstName + " visiting " + visitors.StaffName?.Name, NotificationType.success);
                 return RedirectToAction(nameof(Index));
             }
             //reloads the select list
@@ -91,7 +94,7 @@ namespace VisitorManagement2022.Controllers
 
 
 
-        
+
         //LOGOUT
         [Route("Home/Logout", Name = "LogoutRoute")]
         public async Task<IActionResult> Logout(Guid? id)

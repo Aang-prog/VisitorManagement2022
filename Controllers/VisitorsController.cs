@@ -19,7 +19,7 @@ namespace VisitorManagement2022.Controllers
         }
 
         // GET: Visitors
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
 
             var applicationDbContext = _context.Visitors!.Include(v => v.StaffName);
