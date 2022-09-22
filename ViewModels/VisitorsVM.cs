@@ -15,7 +15,7 @@ namespace VisitorManagement2022.ViewModels
         [Display(Name = "Visit Date In")]
         public DateTime DateIn { get; set; }
         [Display(Name = "Visit Date Out")]
-        public DateTime DateOut { get; set; }
+        public DateTime? DateOut { get; set; }
 
         //Navigation
 

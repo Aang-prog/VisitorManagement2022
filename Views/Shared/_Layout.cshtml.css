@@ -1,5 +1,8 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+/* width */
+
+
 
 a.navbar-brand {
     white-space: normal;
@@ -10,7 +13,7 @@ a.navbar-brand {
 
 
 a {
-    color: white!important;
+    color: white !important;
 }
 
 .btn-primary {
@@ -56,4 +59,3 @@ nav {
     border-bottom: none !important;
     color: white !important;
 }
-

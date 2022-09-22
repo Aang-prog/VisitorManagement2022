@@ -16,6 +16,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<ITextFileOperations, TextFileOperations>();
+builder.Services.AddTransient<ISweetAlert, SweetAlert>();
+builder.Services.AddTransient<IDBCalls, DBCalls>();
 
 var app = builder.Build();
 
