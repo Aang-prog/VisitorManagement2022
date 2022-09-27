@@ -1,0 +1,32 @@
+﻿
+<div>
+    
+    <div class="col-3">
+        <h4 class="adminh4">Where Query Method</h4>
+        <ul class="query">
+            @foreach (var item in (IEnumerable<Visitors>)ViewData["WhereQuery"])
+            {
+                <li class="querylist"> @item.FirstName @item.LastName </li>
+            }
+        </ul>
+        <h4 class="adminh4">Where Query Method Syntax</h4>
+        <ul class="query">
+            @foreach (var item in (IEnumerable<StaffNames>)ViewData["WhereMethodSyntax"])
+            {
+                <li class="querylist"> @item.Name </li>
+            }
+        </ul>
+
+
+        <h4 class="adminh4">Order by Descending visitors count</h4>
+        <ul class="query">
+            @foreach (var item in (IEnumerable<StaffNames>)ViewData["OrderByQuery"])
+            {
+                <li class="querylist"> @item.VisitorCount </li>
+            }
+        </ul>
+        
+     
+    </div>
+    </div>
+

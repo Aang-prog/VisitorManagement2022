@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/VisitorManagement2022.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.all.min.js"></script>
 </head>
@@ -15,7 +17,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/images/logo.png" height="30" width="30" border="0">VisitorManagement2022</a>
+                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index"> <img class="logo" src="~/images/logo.png" height="30" width="30" border="0">VisitorManagement2022</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -34,6 +36,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Visitors" asp-action="index">Visitors</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Admin">Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <p class="Weather"><img class="temp" src="~/images/temp.png" />@ViewData["Temp"]</p>
+                        </li>
+                        <li class="nav-item">
+                            <p class="Weather"><img class="wind" src="~/images/wind.png" />@ViewData["Wind"]</p>
+                        </li>
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using VisitorManagement2022.Data;
+using VisitorManagement2022.DTO;
 using VisitorManagement2022.Models;
 using VisitorManagement2022.Service;
 using VisitorManagement2022.ViewModels;
@@ -21,9 +22,11 @@ namespace VisitorManagement2022.Controllers
         private readonly IMapper _mapper;
         private readonly ISweetAlert _sweetalert;
         private readonly IDBCalls _dbCalls;
+        private readonly IAPI _aPI;
+
 
         //HOMECONTROLLER
-        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment webHostEnvironment, ITextFileOperations textFileOperations, ApplicationDbContext context, IMapper mapper, ISweetAlert sweetalert, IDBCalls dbCalls)
+        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment webHostEnvironment, ITextFileOperations textFileOperations, ApplicationDbContext context, IMapper mapper, ISweetAlert sweetalert, IDBCalls dbCalls, IAPI aPI)
         {
             _logger = logger;
             _webHostEnvironment = webHostEnvironment;
@@ -32,14 +35,16 @@ namespace VisitorManagement2022.Controllers
             _mapper = mapper;
             _sweetalert = sweetalert;
             _dbCalls = dbCalls;
+            _aPI = aPI;
         }
 
         //INDEX
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+
+
             //VARIABLES
-
-
+            Root root = await _aPI.WeatherAPI();
             VisitorsVM visitorVM = new VisitorsVM();
             var date = DateTime.Now;
             visitorVM.DateIn = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Kind);
@@ -59,6 +64,8 @@ namespace VisitorManagement2022.Controllers
             ViewData["Conditions"] = _textFileOperations.LoadConditionsOfAcceptance();
             ViewData["TOE"] = "Terms of Entry";
             ViewData["StaffNameId"] = new SelectList(_context.StaffNames, "Id", "Name");
+            ViewData["Temp"] = root.main.temp + "°C";
+            ViewData["Wind"] = root.wind.speed + "KPH";
 
             return View(visitorVM);
 
@@ -122,6 +129,20 @@ namespace VisitorManagement2022.Controllers
 
 
             return RedirectToAction("Index", "Home");
+        }
+
+
+        //ADMIN
+        public IActionResult Admin()
+        {
+            ViewData["WhereQuery"] = _dbCalls.WhereQuery();
+            ViewData["WhereMethodSyntax"] = _dbCalls.WhereMethodSyntax();
+            ViewData["OrderByQuery"] = _dbCalls.OrderBy();
+
+            return View();
+
+
+
         }
 
 

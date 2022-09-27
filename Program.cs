@@ -18,6 +18,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<ITextFileOperations, TextFileOperations>();
 builder.Services.AddTransient<ISweetAlert, SweetAlert>();
 builder.Services.AddTransient<IDBCalls, DBCalls>();
+builder.Services.AddTransient<IAPI, API >();
 
 var app = builder.Build();
 

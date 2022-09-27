@@ -1,12 +1,15 @@
 ﻿@model VisitorManagement2022.ViewModels.VisitorsVM
 @{
     ViewData["Title"] = "Home Page";
+    
 }
+
 
 <div class="text-center">
     <h1 class="display-4">@ViewData["Welcome"]</h1>
     <br />
-    
+
+
     <!--SIGN-IN-->
     <div class="row" style="background-color:black">
         <div class="col-6" style="border:2px solid white;">
@@ -15,22 +18,25 @@
         </div>
 
         <!--VISITORS LIST-->
-        
+
         <div class="col-6" style="border:2px solid white;">
             <h4>Current Visitors</h4> <ul>
                 @foreach (var item in (IEnumerable<Visitors>)ViewData["LoggedInVisitors"])
                 {
-                    
+
                     <li class="people"> <a asp-route="LogoutRoute" asp-route-id="@item.Id" class="btn btn-primary" type="button" style="margin-right: 2px;">Logout</a> @item.FirstName @item.LastName From @item.Buisness Visiting @item.StaffName.Name @item.DateIn </li>
                 }
             </ul>
         </div>
     </div>
 
+
     <!--CONDITIONS-->
     <div class="row">
-        <h2>@ViewData["TOE" +
-           ""]</h2>
+        <h2>
+            @ViewData["TOE" +
+       ""]
+        </h2>
         @await Html.PartialAsync("_Conditions")
 
     </div>
